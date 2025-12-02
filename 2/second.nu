@@ -1,3 +1,4 @@
+# It takes many minutes, but I'm not here for speed :p
 def main [input: string] {
     open -r $input
     | split row ','
