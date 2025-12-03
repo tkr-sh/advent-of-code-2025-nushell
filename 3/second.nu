@@ -14,11 +14,11 @@ def main [input: string] {
         | reverse
         | reduce --fold {total: 0, index: 0} {|i, acc|
             let digit = $digits
-            | slice ($acc.index)..(($digits | length) - $i - 1)
+            | slice $acc.index..(($digits | length) - $i - 1)
             | find-max;
 
             {
-                total: ($acc.total + $digit.item * 10 ** ($i))
+                total: ($acc.total + $digit.item * 10 ** $i)
                 index: ($digit.index + 1)
             }
         }
