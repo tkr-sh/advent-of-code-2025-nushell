@@ -14,7 +14,7 @@ def main [input: string] {
         | reverse
         | reduce --fold {total: 0, index: 0} {|i, acc|
             let digit = $digits
-            | slice $acc.index..(($digits | length) - $i - 1)
+            | slice $acc.index..(($i + 1) * -1)
             | find-max;
 
             {
