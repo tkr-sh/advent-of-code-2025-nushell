@@ -1,6 +1,5 @@
 source ./utils.nu
 
-# 16812
 def main [input: string] {
     open -r $input
     | lines
@@ -10,8 +9,8 @@ def main [input: string] {
         | each { into int }
         | enumerate;
 
-        let first_digit = find_max ($values | slice ..-2);
-        let second_digit = find_max (after_index $values $first_digit.index)
+        let first_digit = $values | slice ..-2 | find-max;
+        let second_digit = $values | after-index $first_digit.index | find-max;
 
         $first_digit.item * 10 + $second_digit.item
     }

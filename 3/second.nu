@@ -9,18 +9,21 @@ def main [input: string] {
         | each { into int }
         | enumerate;
 
-        0..11 | each { $in } | reverse | reduce --fold { total: 0, index: -1} {|i, acc|
-            let digit = find_max (
-                after_index
-                    (before_index $values (($values | length) - $i))
-                    $acc.index  
-            )
+        0..11
+        | each { $in }
+        | reverse
+        | reduce --fold { total: 0, index: -1} {|i, acc|
+            let digit = $values
+           | before-index (($values | length) - $i)
+           | after-index $acc.index  
+           | find-max;
 
-            {
-                total: ($acc.total + $digit.item * 10 ** ($i))
-                index: ($digit.index)
-            }
+           {
+               total: ($acc.total + $digit.item * 10 ** ($i))
+               index: ($digit.index)
+           }
         }
+        | get total
     }
     | math sum
 }
