@@ -10,7 +10,7 @@ def main [input: string] {
         | enumerate;
 
         let first_digit = $values | slice ..-2 | find-max;
-        let second_digit = $values | after-index $first_digit.index | find-max;
+        let second_digit = $values | slice ($first_digit.index + 1).. | find-max;
 
         $first_digit.item * 10 + $second_digit.item
     }

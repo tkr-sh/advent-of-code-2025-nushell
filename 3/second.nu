@@ -12,16 +12,15 @@ def main [input: string] {
         0..11
         | each { $in }
         | reverse
-        | reduce --fold { total: 0, index: -1} {|i, acc|
+        | reduce --fold { total: 0, index: 0} {|i, acc|
             let digit = $values
-           | before-index (($values | length) - $i)
-           | after-index $acc.index  
-           | find-max;
+            | slice ($acc.index)..(($values | length) - $i - 1)
+            | find-max;
 
-           {
-               total: ($acc.total + $digit.item * 10 ** ($i))
-               index: ($digit.index)
-           }
+            {
+                total: ($acc.total + $digit.item * 10 ** ($i))
+                index: ($digit.index + 1)
+            }
         }
         | get total
     }

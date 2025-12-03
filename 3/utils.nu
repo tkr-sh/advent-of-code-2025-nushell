@@ -8,11 +8,3 @@ def find-max [] {
     }
     | first
 }
-
-def after-index [index: number] {
-    filter {$in.index > $index }
-}
-
-def before-index [index: number] {
-    filter {$in.index < $index }
-}
