@@ -15,7 +15,7 @@ def main [input: string] {
             | find-max;
 
             {
-                total: ($acc.total + $digit.item * 10 ** ($i | math abs))
+                total: ($acc.total + $digit.item * 10 ** ($i * -1))
                 index: ($digit.index + 1)
             }
         }
