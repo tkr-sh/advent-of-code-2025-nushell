@@ -9,16 +9,13 @@ def main [input: string] {
         | each { into int }
         | enumerate;
 
-        0..11
-        | each { $in }
-        | reverse
-        | reduce --fold {total: 0, index: 0} {|i, acc|
+        -11..0 | reduce --fold {total: 0, index: 0} {|i, acc|
             let digit = $digits
-            | slice $acc.index..(($i + 1) * -1)
+            | slice $acc.index..($i - 1)
             | find-max;
 
             {
-                total: ($acc.total + $digit.item * 10 ** $i)
+                total: ($acc.total + $digit.item * 10 ** ($i | math abs))
                 index: ($digit.index + 1)
             }
         }
