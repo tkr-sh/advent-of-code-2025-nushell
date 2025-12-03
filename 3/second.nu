@@ -4,7 +4,7 @@ def main [input: string] {
     open -r $input
     | lines
     | each {|line|
-        let values = $line
+        let digits = $line
         | split chars
         | each { into int }
         | enumerate;
@@ -12,9 +12,9 @@ def main [input: string] {
         0..11
         | each { $in }
         | reverse
-        | reduce --fold { total: 0, index: 0} {|i, acc|
-            let digit = $values
-            | slice ($acc.index)..(($values | length) - $i - 1)
+        | reduce --fold {total: 0, index: 0} {|i, acc|
+            let digit = $digits
+            | slice ($acc.index)..(($digits | length) - $i - 1)
             | find-max;
 
             {
