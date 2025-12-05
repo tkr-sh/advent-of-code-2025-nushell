@@ -1,6 +1,6 @@
-# 643
 def main [input: string] {
     let input = open -r $input | lines;
+
     let ranges = $input | find '-' -n
     | each {|range|
         let range_as_list = $range | split row '-' | each { str trim | into int };
