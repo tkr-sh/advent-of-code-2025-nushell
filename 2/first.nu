@@ -4,9 +4,9 @@ def main [input: string] {
     | each {|range_str|
         let range = $range_str | split row '-' | each { into int };
 
-        (($range | first)..($range | last)) | filter {|i|
+        (($range | first)..($range | last)) | where {|i|
             let str = $i | into string;
-            let len = $stringified | str length;
+            let len = $str | str length;
 
             (
                 $len mod 2 == 0 and
