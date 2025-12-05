@@ -11,7 +11,7 @@ def main [input: string] {
     };
 
     let ids = $input
-    | where { (($in | str length) > 0) and not ($in | str contains '-') }
+    | where { ($in | str length) > 0 and not ($in | str contains '-') }
     | each { into int };
     
     $ids
