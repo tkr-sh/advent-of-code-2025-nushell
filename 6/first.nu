@@ -1,3 +1,5 @@
+source ./utils.nu;
+
 def main [input: string] {
     open -r $input
     | lines
@@ -17,9 +19,4 @@ def main [input: string] {
         | into int
     }
     | math sum
-}
-
-def table-into-lists [] {
-    let table = $in;
-    $table | columns | each {|col| $table | get $col}
 }
