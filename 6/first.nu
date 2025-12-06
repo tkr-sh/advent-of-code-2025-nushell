@@ -1,16 +1,25 @@
 def main [input: string] {
-    let lines = open -r $input
+    open -r $input
     | lines
-    | each { str trim | split row -r '\s+' }
-
-
-
-
-    (0..<($lines | first | length)) 
-    | each {|idx|
-        let sign = $lines | last | get $idx;
-
-        nu -c ($lines | each { $in | get $idx } | slice ..-2 | str join (" " + $sign + " ")) | into int
+    | each {
+        str trim
+        | split row -r '\s+'
+        | enumerate
+        | reduce --fold {} { |it, acc| $acc | insert ($it.index | into string) $it.item }
+    }
+    | table-into-lists
+    | each {|values|
+        nu -c (
+            $values
+            | slice ..-2
+            | str join $" ($values | last) "
+        )
+        | into int
     }
     | math sum
+}
+
+def table-into-lists [] {
+    let table = $in;
+    $table | columns | each {|col| $table | get $col}
 }
