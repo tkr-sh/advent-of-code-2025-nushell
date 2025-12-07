@@ -8,20 +8,31 @@ def main [input: string] {
     | reduce --fold [{ index: $start_idx, possibility: 1}] {|line, acc_lines|
         $acc_lines
         | reduce --fold [] {|beam, acc|
-            let idx = $beam.index | into int;
-            if ($line | split chars | get $idx) == '^' {
-                let possibility_minus = $acc | where index == ($idx - 1) | get 0 --optional | default { index: ($idx - 1), possibility: 0};
-
-                ($acc | where index != ($idx - 1) and index != ($idx + 1) | append [
-                    ($possibility_minus | update possibility {$in + $beam.possibility}),
-                    ({ index: ($idx + 1), possibility: $beam.possibility})
-                ])
+            if ($line | split chars | get $beam.index) == '^' {
+                $acc
+                | where index != ($beam.index - 1) and index != ($beam.index + 1)
+                | append [
+                    (
+                        $acc
+                        | where index == ($beam.index - 1)
+                        | get 0 --optional
+                        | default { index: ($beam.index - 1), possibility: 0}
+                        | update possibility {$in + $beam.possibility}
+                    ),
+                    ({ index: ($beam.index + 1), possibility: $beam.possibility})
+                ]
             } else {
-                let current = $acc | where index == ($idx) | get 0 --optional | default { index: $idx, possibility: 0};
-
-                ($acc | where index != $idx | append [
-                    ($current | update possibility {$in + $beam.possibility})
-                ])
+                $acc
+                | where index != $beam.index
+                | append [
+                    (
+                        $acc
+                        | where index == ($beam.index)
+                        | get 0 --optional
+                        | default { index: $beam.index, possibility: 0}
+                        | update possibility {$in + $beam.possibility}
+                    )
+                ]
             }
         }
     }
