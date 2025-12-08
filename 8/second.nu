@@ -46,13 +46,13 @@ def main [input: string] {
         });
 
         if ($new | length) == 1 and ($new | first | length) == ($coordinates | length) {
-            print $'($i.indexes | each {|i| $coordinates | get $i })'
+            let xs = $i.indexes | each {|i| $coordinates | get $i | get 0 };
+            print (($xs | first) * ($xs | last))
             exit 
         }
 
         $new
     }
-    | sort-by { length }
 }
 
 def distance [a: any, b: any] {
